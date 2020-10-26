@@ -1,47 +1,47 @@
 ﻿using AuthorizationForOcelot.Configuration;
 using Microsoft.Extensions.Configuration;
+using Microsoft.Extensions.Hosting;
 using System;
 using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
-using System.Text.RegularExpressions;
 
 namespace AuthorizationForOcelot.DependencyInjection
 {
     public static class ConfigurationBuilderExtensions
     {
-        public static IConfigurationBuilder AddOcelotWithAuthorization(this IConfigurationBuilder builder, Action<OcelotWithAuthorizationOptions> action = null)
+        public static IConfigurationBuilder AddOcelotWithAuthorization(
+            this IConfigurationBuilder builder, 
+            IHostEnvironment environment, 
+            Action<OcelotWithAuthorizationOptions> action = null)
         {
             var options = new OcelotWithAuthorizationOptions();
             action?.Invoke(options);
 
-            AuthorizationFileConfiguration fileConfiguration = MergeFilesOfOcelotConfiguration(GetOcelotFiles(options));
+            IEnumerable<FileInfo> ocelotFiles = GetOcelotFiles(environment, options);
+            AuthorizationFileConfiguration fileConfiguration = MergeFilesOfOcelotConfiguration(ocelotFiles);
 
-            string path = $"{options.OcelotConfigFileName}.json";
-
-            File.WriteAllText(path, JsonSerializer.Serialize(fileConfiguration));
-            builder.AddJsonFile(path, optional: false, reloadOnChange: false);
+            byte[] buffer = JsonSerializer.SerializeToUtf8Bytes(fileConfiguration);
+            MemoryStream stream = new MemoryStream(buffer);
+            builder.AddJsonStream(stream);
 
             return builder;
         }
 
-        private static IEnumerable<FileInfo> GetOcelotFiles(OcelotWithAuthorizationOptions options)
+        private static IEnumerable<FileInfo> GetOcelotFiles(IHostEnvironment environment, OcelotWithAuthorizationOptions options)
         {
-            Regex ocelotPattern = new Regex($"^{options.OcelotConfigFileName}\\.(.*?)\\.json$", RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            
-            IEnumerable<FileInfo> ocelotFiles = new DirectoryInfo(Directory.GetCurrentDirectory())
-                    .EnumerateFiles("*", SearchOption.AllDirectories)
-                    .Where(file => ocelotPattern.IsMatch(file.Name));
-
-            string environment = options.HostEnvironment?.EnvironmentName;
-
-            if (!string.IsNullOrWhiteSpace(environment))
+            List<string> excludedDirectories = new List<string>
             {
-                ocelotFiles = ocelotFiles.Where(file => file.Name.Contains(environment));
-            }
+                "\\BIN",
+                "\\OBJ"
+            };            
 
-            return ocelotFiles;
+            return new DirectoryInfo(environment.ContentRootPath)
+                    .EnumerateFiles("*.json", SearchOption.AllDirectories)
+                    .Where(
+                        file => file.Name.Contains(options.OcelotConfigFileName) && 
+                        !excludedDirectories.Any(directory => file.Directory.FullName.ToUpper().Contains(directory)));
         }
 
         private static AuthorizationFileConfiguration MergeFilesOfOcelotConfiguration(IEnumerable<FileInfo> files)

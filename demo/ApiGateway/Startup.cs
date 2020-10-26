@@ -6,6 +6,7 @@ using Microsoft.Extensions.Hosting;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
 using AuthorizationForOcelot.DependencyInjection;
+using System.Text.Json;
 
 namespace ApiGateway
 {
@@ -20,7 +21,12 @@ namespace ApiGateway
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddControllers();
+            services.AddControllers().AddJsonOptions(options =>
+            {
+                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
+                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
+            });
+            services.AddAuthorizationWithOcelot(Configuration);
             services.AddOcelot();
         }
 

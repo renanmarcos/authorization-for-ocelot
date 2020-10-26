@@ -9,9 +9,22 @@
           "Port": 5001
         }
       ],
-      "UpstreamPathTemplate": "/costumers/{everything}",
+      "UpstreamPathTemplate": "/customers/{everything}",
+      "UpstreamHttpMethod": [ "Post" ],
+      "UserRoles": [ "admin", "uploader" ]
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "http",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5001
+        }
+      ],
+      "UpstreamPathTemplate": "/customers/{everything}",
       "UpstreamHttpMethod": [ "Get" ],
-      "UserRoles":  ["admin"]
+      "UserRoles": [ "user" ]
     }
   ],
   "GlobalConfiguration": {

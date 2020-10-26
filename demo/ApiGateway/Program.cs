@@ -17,10 +17,10 @@ namespace ApiGateway
                 .ConfigureWebHostDefaults(webBuilder =>
                 {
                     webBuilder.UseKestrel()
-                        .ConfigureAppConfiguration(config => 
+                        .ConfigureAppConfiguration((hostingContext, config) => 
                         {
                             config.AddJsonFile("ocelot.json", optional: false, reloadOnChange: false);
-                            config.AddOcelotWithAuthorization();
+                            config.AddOcelotWithAuthorization(hostingContext.HostingEnvironment);                            
                         })
                         .UseStartup<Startup>();
                 });
