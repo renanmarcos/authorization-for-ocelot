@@ -19,7 +19,7 @@ namespace AuthorizationForOcelot.DependencyInjection
 
             action?.Invoke(options);
 
-            new DirectoryInfo()
+            //new DirectoryInfo();
 
             File.WriteAllText(options.OcelotConfigFileName, JsonSerializer.Serialize(""));
 
@@ -28,18 +28,18 @@ namespace AuthorizationForOcelot.DependencyInjection
             return builder;
         }
 
-        private static FileInfo GetOcelotFile(string nameEnvironment)
-        {
-            var reg = new Regex(OcelotFilePattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
-            FileInfo ocelotFile =
-                new FileInfo("")
-                    .EnumerateFiles()
-                    .Where(fi => reg.IsMatch(fi.Name));
+        //private static FileInfo GetOcelotFile(string nameEnvironment)
+        //{
+        //    var reg = new Regex(OcelotFilePattern, RegexOptions.IgnoreCase | RegexOptions.Singleline);
+        //    FileInfo ocelotFile =
+        //        new FileInfo("")
+        //            .EnumerateFiles()
+        //            .Where(fi => reg.IsMatch(fi.Name));
 
-            if (!nameEnvirotment.IsNullOrWhiteSpace())
-            {
-                ocelotFiles = ocelotFiles.Where(fi => fi.Name.Contains(nameEnvirotment));
-            }
-        }
+        //    if (!nameEnvirotment.IsNullOrWhiteSpace())
+        //    {
+        //        ocelotFiles = ocelotFiles.Where(fi => fi.Name.Contains(nameEnvirotment));
+        //    }
+        //}
     }
 }
