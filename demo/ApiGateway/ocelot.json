@@ -10,7 +10,8 @@
         }
       ],
       "UpstreamPathTemplate": "/costumers/{everything}",
-      "UpstreamHttpMethod": [ "Get" ]
+      "UpstreamHttpMethod": [ "Get" ],
+      "UserRoles":  ["admin"]
     }
   ],
   "GlobalConfiguration": {

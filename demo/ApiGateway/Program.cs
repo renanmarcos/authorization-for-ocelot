@@ -1,3 +1,4 @@
+using AuthorizationForOcelot.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -19,6 +20,7 @@ namespace ApiGateway
                         .ConfigureAppConfiguration(config => 
                         {
                             config.AddJsonFile("ocelot.json", optional: false, reloadOnChange: false);
+                            config.AddOcelotWithAuthorization();
                         })
                         .UseStartup<Startup>();
                 });

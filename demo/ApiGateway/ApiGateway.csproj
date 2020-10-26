@@ -12,5 +12,4 @@
     <ProjectReference Include="..\..\src\AuthorizationForOcelot.csproj" />
   </ItemGroup>
 
-
 </Project>

@@ -5,6 +5,7 @@ using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Ocelot.DependencyInjection;
 using Ocelot.Middleware;
+using AuthorizationForOcelot.DependencyInjection;
 
 namespace ApiGateway
 {
@@ -38,6 +39,8 @@ namespace ApiGateway
             {
                 endpoints.MapControllers();
             });
+
+            app.UseOcelotWithAuthorization();
 
             app.UseOcelot().Wait();
         }

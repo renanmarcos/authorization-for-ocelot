@@ -4,7 +4,7 @@ namespace AuthorizationForOcelot.Configuration
 {
     public class OcelotWithAuthorizationOptions
     {
-        public string OcelotConfigFileName { get; set; } = "ocelot.json";
+        public string OcelotConfigFileName { get; set; } = "ocelot";
 
         public IHostEnvironment HostEnvironment { get; set; }
     }
