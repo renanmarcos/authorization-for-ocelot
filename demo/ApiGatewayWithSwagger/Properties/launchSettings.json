@@ -4,11 +4,10 @@
     "ApiGateway": {
       "commandName": "Project",
       "launchBrowser": true,
-      "launchUrl": "hello",
-      "applicationUrl": "https://localhost:5000",
+      "applicationUrl": "https://localhost:5010",
       "environmentVariables": {
         "ASPNETCORE_ENVIRONMENT": "Development"
-      }
+      }      
     }
   }
 }
