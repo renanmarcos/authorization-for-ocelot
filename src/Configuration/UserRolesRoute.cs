@@ -1,5 +1,5 @@
-﻿using Ocelot.Configuration.File;
-using System;
+﻿using AuthorizationForOcelot.SystemExtensions;
+using Ocelot.Configuration.File;
 using System.Collections.Generic;
 
 namespace AuthorizationForOcelot.Configuration
@@ -10,7 +10,8 @@ namespace AuthorizationForOcelot.Configuration
 
         public List<string> UserRoles { get; set; } = new List<string>();
 
-        public bool CanCatchAll()
-            => DownstreamPathTemplate.EndsWith(CatchAllPlaceHolder, StringComparison.CurrentCultureIgnoreCase);
+        public bool CanCatchAll() => DownstreamPathTemplate.EndsWithIgnoringCase(CatchAllPlaceHolder);
+
+        public bool HasMethodTransformation() => !string.IsNullOrWhiteSpace(DownstreamHttpMethod);
     }
 }

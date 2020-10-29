@@ -28,7 +28,7 @@ namespace ApiGateway
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
             services.AddAuthorizationWithOcelot(Configuration);
-            services.AddOcelot();
+            services.AddOcelot().AddAuthorizationOcelotHandler();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -46,8 +46,6 @@ namespace ApiGateway
             {
                 endpoints.MapControllers();
             });
-
-            app.UseOcelotWithAuthorization();
 
             app.UseOcelot().Wait();
         }

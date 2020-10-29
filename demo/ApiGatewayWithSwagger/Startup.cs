@@ -41,7 +41,7 @@ namespace ApiGatewayWithSwagger
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
             services.AddAuthorizationWithOcelot(Configuration);
-            services.AddOcelot();
+            services.AddOcelot().AddAuthorizationOcelotHandler();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -66,8 +66,6 @@ namespace ApiGatewayWithSwagger
                 options.RoutePrefix = string.Empty;
                 options.DocumentTitle = "API Gateway";
             });
-
-            app.UseOcelotWithAuthorization();
 
             app.UseOcelot().Wait();
         }
