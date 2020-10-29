@@ -6,6 +6,7 @@ using System.Collections.Generic;
 using System.IO;
 using System.Linq;
 using System.Text.Json;
+using System.Text.RegularExpressions;
 
 namespace AuthorizationForOcelot.DependencyInjection
 {
@@ -31,17 +32,14 @@ namespace AuthorizationForOcelot.DependencyInjection
 
         private static IEnumerable<FileInfo> GetOcelotFiles(IHostEnvironment environment, OcelotWithAuthorizationOptions options)
         {
-            List<string> excludedDirectories = new List<string>
-            {
-                "\\BIN",
-                "\\OBJ"
-            };            
+            var ocelotRegex = new Regex($"(?:{options.OcelotConfigFileName}\\.json)" +
+                $"|(?:{options.OcelotConfigFileName}\\.{environment.EnvironmentName}\\.json)" +
+                $"|(?:{options.OcelotConfigFileName}\\..*(?=\\.)\\.{environment.EnvironmentName}\\.json)", 
+                RegexOptions.IgnoreCase);
 
-            return new DirectoryInfo(environment.ContentRootPath)
-                    .EnumerateFiles("*.json", SearchOption.AllDirectories)
-                    .Where(
-                        file => file.Name.Contains(options.OcelotConfigFileName) && 
-                        !excludedDirectories.Any(directory => file.Directory.FullName.ToUpper().Contains(directory)));
+            return new DirectoryInfo($"{environment.ContentRootPath}\\{options.OcelotFilesFolder}")
+                    .EnumerateFiles("*.json")
+                    .Where(file => ocelotRegex.IsMatch(file.Name));
         }
 
         private static AuthorizationFileConfiguration MergeFilesOfOcelotConfiguration(IEnumerable<FileInfo> files)

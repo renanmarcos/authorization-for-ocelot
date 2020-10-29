@@ -1,3 +1,4 @@
+using AuthorizationForOcelot.DependencyInjection;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.Hosting;
@@ -25,8 +26,11 @@ namespace ApiGatewayWithSwagger
                                     options.Folder = "Configuration";
                                     options.HostEnvironment = hostingContext.HostingEnvironment;
                                 })
-                                .AddEnvironmentVariables();
-                                //.AddOcelotWithAuthorization(hostingContext.HostingEnvironment);
+                                .AddEnvironmentVariables()
+                                .AddOcelotWithAuthorization(hostingContext.HostingEnvironment, options =>
+                                {
+                                    options.OcelotFilesFolder = "Configuration";
+                                });
                         })
                         .UseStartup<Startup>()
                         .UseKestrel();

@@ -11,6 +11,7 @@
       ],
       "UpstreamPathTemplate": "/customers/{everything}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UserRoles":  ["admin"],
       "SwaggerKey": "customer"
     }
   ]

@@ -40,7 +40,7 @@ namespace ApiGatewayWithSwagger
                 options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
                 options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
             });
-            //services.AddAuthorizationWithOcelot(Configuration);
+            services.AddAuthorizationWithOcelot(Configuration);
             services.AddOcelot();
         }
 
@@ -67,8 +67,7 @@ namespace ApiGatewayWithSwagger
                 options.DocumentTitle = "API Gateway";
             });
 
-
-            //app.UseOcelotWithAuthorization();
+            app.UseOcelotWithAuthorization();
 
             app.UseOcelot().Wait();
         }
