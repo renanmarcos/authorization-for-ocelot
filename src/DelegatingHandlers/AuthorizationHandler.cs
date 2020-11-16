@@ -1,5 +1,6 @@
-﻿using AuthorizationForOcelot.Configuration;
-using AuthorizationForOcelot.SystemExtensions;
+﻿using AuthorizationForOcelot.Abstractions;
+using AuthorizationForOcelot.Configuration;
+using AuthorizationForOcelot.Extensions;
 using Microsoft.AspNetCore.Http;
 using Microsoft.AspNetCore.Mvc;
 using Microsoft.AspNetCore.Mvc.Abstractions;
@@ -18,18 +19,20 @@ namespace AuthorizationForOcelot.DelegatingHandlers
     {
         private readonly List<UserRolesRoute> _routes;
         private readonly IHttpContextAccessor _httpUpstreamContextAccessor;
+        private readonly IAuthorizerForOcelot _authorizerForOcelot;
 
-        public AuthorizationHandler(IOptions<List<UserRolesRoute>> routes, IHttpContextAccessor httpUpstreamContextAccessor)
+        public AuthorizationHandler(IOptions<List<UserRolesRoute>> routes, IHttpContextAccessor httpUpstreamContextAccessor, IAuthorizerForOcelot authorizerForOcelot)
         {
             _routes = routes.Value;
             _httpUpstreamContextAccessor = httpUpstreamContextAccessor;
+            _authorizerForOcelot = authorizerForOcelot;
         }
 
         protected override async Task<HttpResponseMessage> SendAsync(HttpRequestMessage downstreamRequest, CancellationToken cancellationToken)
         {
             if (!IsOptionsHttpMethod(downstreamRequest) && FindRoute(downstreamRequest) is UserRolesRoute configuredRoute)
             {
-                if (UserCanAccessResource(downstreamRequest, configuredRoute))
+                if (UserCanAccessResource(_httpUpstreamContextAccessor.HttpContext.Request, configuredRoute))
                 {
                     return await base.SendAsync(downstreamRequest, cancellationToken);
                 }
@@ -82,25 +85,16 @@ namespace AuthorizationForOcelot.DelegatingHandlers
             });
         }
 
-        private bool UserCanAccessResource(HttpRequestMessage downstreamRequest, UserRolesRoute configuredUserRolesForRoute)
+        private bool UserCanAccessResource(HttpRequest request, UserRolesRoute configuredUserRolesForRoute)
         {
             if (configuredUserRolesForRoute.UserRoles == null || configuredUserRolesForRoute.UserRoles.Count == 0)
                 return true;
 
-            return GetCurrentRolesFromIDM(downstreamRequest)
+            return _authorizerForOcelot.FetchUserRoles(request)
                     .Any(userRole => 
                         configuredUserRolesForRoute.UserRoles
                             .Any(allowedRouteRole => allowedRouteRole.EqualsIgnoringCase(userRole)));
 
-        }
-
-        private List<string> GetCurrentRolesFromIDM(HttpRequestMessage downstreamRequest)
-        {
-            // Get access token and get scopes from IDM here
-            return new List<string>()
-            {
-                "user"
-            };
         }
     }
 }

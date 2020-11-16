@@ -15,7 +15,17 @@ Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGateway", "demo\ApiGatew
 EndProject
 Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "CustomerService", "demo\CustomerService\CustomerService.csproj", "{0FA340DA-6CBA-4619-B652-EDC89698DE58}"
 EndProject
-Project("{FAE04EC0-301F-11D3-BF4B-00C04F79EFBC}") = "ApiGatewayWithSwagger", "demo\ApiGatewayWithSwagger\ApiGatewayWithSwagger.csproj", "{F6FC6CAC-C9F9-47E4-AD1B-FDBD337D9756}"
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ApiGatewayWithSwagger", "demo\ApiGatewayWithSwagger\ApiGatewayWithSwagger.csproj", "{F6FC6CAC-C9F9-47E4-AD1B-FDBD337D9756}"
+EndProject
+Project("{9A19103F-16F7-4668-BE54-9A1E7A4F7556}") = "ProductService", "demo\ProductService\ProductService.csproj", "{F0B7F5FE-51CC-49DE-8B5A-CD86631C4420}"
+EndProject
+Project("{2150E333-8FDC-42A3-9474-1A3956D46DE8}") = "Solution Items", "Solution Items", "{5844C911-CF03-4329-9A4C-A653D09F1BB6}"
+	ProjectSection(SolutionItems) = preProject
+		.editorconfig = .editorconfig
+		.gitattributes = .gitattributes
+		.gitignore = .gitignore
+		README.md = README.md
+	EndProjectSection
 EndProject
 Global
 	GlobalSection(SolutionConfigurationPlatforms) = preSolution
@@ -39,6 +49,10 @@ Global
 		{F6FC6CAC-C9F9-47E4-AD1B-FDBD337D9756}.Debug|Any CPU.Build.0 = Debug|Any CPU
 		{F6FC6CAC-C9F9-47E4-AD1B-FDBD337D9756}.Release|Any CPU.ActiveCfg = Release|Any CPU
 		{F6FC6CAC-C9F9-47E4-AD1B-FDBD337D9756}.Release|Any CPU.Build.0 = Release|Any CPU
+		{F0B7F5FE-51CC-49DE-8B5A-CD86631C4420}.Debug|Any CPU.ActiveCfg = Debug|Any CPU
+		{F0B7F5FE-51CC-49DE-8B5A-CD86631C4420}.Debug|Any CPU.Build.0 = Debug|Any CPU
+		{F0B7F5FE-51CC-49DE-8B5A-CD86631C4420}.Release|Any CPU.ActiveCfg = Release|Any CPU
+		{F0B7F5FE-51CC-49DE-8B5A-CD86631C4420}.Release|Any CPU.Build.0 = Release|Any CPU
 	EndGlobalSection
 	GlobalSection(SolutionProperties) = preSolution
 		HideSolutionNode = FALSE
@@ -48,6 +62,7 @@ Global
 		{803DEE58-7C44-48C2-A687-DE98A305DE0E} = {A5726F3F-2AA1-47EE-A82D-ED9B6E9A644B}
 		{0FA340DA-6CBA-4619-B652-EDC89698DE58} = {A5726F3F-2AA1-47EE-A82D-ED9B6E9A644B}
 		{F6FC6CAC-C9F9-47E4-AD1B-FDBD337D9756} = {A5726F3F-2AA1-47EE-A82D-ED9B6E9A644B}
+		{F0B7F5FE-51CC-49DE-8B5A-CD86631C4420} = {A5726F3F-2AA1-47EE-A82D-ED9B6E9A644B}
 	EndGlobalSection
 	GlobalSection(ExtensibilityGlobals) = postSolution
 		SolutionGuid = {69470C32-5183-414F-B7E2-A23D00F6AED1}

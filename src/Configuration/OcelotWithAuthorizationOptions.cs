@@ -4,6 +4,6 @@
     {
         public string OcelotConfigFileName { get; set; } = "ocelot";
 
-        public string OcelotFilesFolder { get; set; }
+        public string OcelotFilesFolder { get; set; } = string.Empty;
     }
 }

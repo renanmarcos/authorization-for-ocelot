@@ -1,6 +1,6 @@
 ﻿using System;
 
-namespace AuthorizationForOcelot.SystemExtensions
+namespace AuthorizationForOcelot.Extensions
 {
     public static class StringExtensions
     {

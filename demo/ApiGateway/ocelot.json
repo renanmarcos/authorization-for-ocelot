@@ -25,6 +25,19 @@
       "UpstreamPathTemplate": "/customers/{everything}",
       "UpstreamHttpMethod": [ "Get" ],
       "UserRoles": [ "user" ]
+    },
+    {
+      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamScheme": "https",
+      "DownstreamHostAndPorts": [
+        {
+          "Host": "localhost",
+          "Port": 5002
+        }
+      ],
+      "UpstreamPathTemplate": "/products/{everything}",
+      "UpstreamHttpMethod": [ "Get", "Post" ],
+      "UserRoles": [ "admin" ]
     }
   ],
   "GlobalConfiguration": {

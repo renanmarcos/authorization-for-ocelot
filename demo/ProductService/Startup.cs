@@ -1,16 +1,11 @@
-using System.Text.Json;
-using ApiGatewayWithSwagger.Controllers;
-using AuthorizationForOcelot.DependencyInjection;
 using Microsoft.AspNetCore.Builder;
 using Microsoft.AspNetCore.Hosting;
 using Microsoft.Extensions.Configuration;
 using Microsoft.Extensions.DependencyInjection;
 using Microsoft.Extensions.Hosting;
 using Microsoft.OpenApi.Models;
-using Ocelot.DependencyInjection;
-using Ocelot.Middleware;
 
-namespace ApiGatewayWithSwagger
+namespace ProductService
 {
     public class Startup
     {
@@ -23,26 +18,18 @@ namespace ApiGatewayWithSwagger
 
         public void ConfigureServices(IServiceCollection services)
         {
-            services.AddSwaggerForOcelot(Configuration);
             services.AddSwaggerGen(setup =>
             {
                 OpenApiInfo apiInfo = new OpenApiInfo
                 {
-                    Title = "API Gateway with Swagger",
+                    Title = "Product API",
                     Version = "v1"
                 };
 
                 setup.SwaggerDoc("v1", apiInfo);
-                setup.DocumentFilter<HideOcelotControllersFilter>();
             });
             services.AddRouting(options => options.LowercaseUrls = true);
-            services.AddControllers().AddJsonOptions(options =>
-            {
-                options.JsonSerializerOptions.PropertyNameCaseInsensitive = true;
-                options.JsonSerializerOptions.PropertyNamingPolicy = JsonNamingPolicy.CamelCase;
-            });
-            services.AddAuthorizationWithOcelot<MyCustomAuthorizerService>(Configuration);
-            services.AddOcelot().AddAuthorizationOcelotHandler();
+            services.AddControllers();
         }
 
         public void Configure(IApplicationBuilder app, IWebHostEnvironment env)
@@ -54,21 +41,20 @@ namespace ApiGatewayWithSwagger
 
             app.UseRouting();
 
+            app.UseAuthorization();
+
             app.UseEndpoints(endpoints =>
             {
                 endpoints.MapControllers();
             });
 
-            app.UseCors(builder => builder.AllowAnyOrigin().AllowAnyHeader().AllowAnyMethod());
-
             app.UseSwagger();
-            app.UseSwaggerForOcelotUI(options =>
+            app.UseSwaggerUI(c =>
             {
-                options.RoutePrefix = string.Empty;
-                options.DocumentTitle = "API Gateway";
+                c.RoutePrefix = string.Empty;
+                c.SwaggerEndpoint("/swagger/v1/swagger.json", "Product API");
+                c.DocumentTitle = "Product API";
             });
-
-            app.UseOcelot().Wait();
         }
     }
 }

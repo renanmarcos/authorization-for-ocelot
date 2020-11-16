@@ -1,4 +1,4 @@
-﻿using AuthorizationForOcelot.SystemExtensions;
+﻿using AuthorizationForOcelot.Extensions;
 using Ocelot.Configuration.File;
 using System.Collections.Generic;
 
