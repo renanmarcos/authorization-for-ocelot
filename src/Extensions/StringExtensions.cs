@@ -15,10 +15,5 @@ namespace AuthorizationForOcelot.Extensions
         {
             return value.Contains(another, DefaultComparison);
         }
-
-        public static bool EndsWithIgnoringCase(this string value, string another)
-        {
-            return value.EndsWith(another, DefaultComparison);
-        }
     }
 }

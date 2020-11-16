@@ -1,7 +1,7 @@
 {
   "Routes": [
     {
-      "DownstreamPathTemplate": "/{everything}",
+      "DownstreamPathTemplate": "/{url}",
       "DownstreamScheme": "https",
       "DownstreamHostAndPorts": [
         {
@@ -9,9 +9,9 @@
           "Port": 5001
         }
       ],
-      "UpstreamPathTemplate": "/customers/{everything}",
+      "UpstreamPathTemplate": "/customers/{url}",
       "UpstreamHttpMethod": [ "Get", "Post" ],
-      "UserRoles":  ["admin"],
+      "UserRoles": [ "user" ],
       "SwaggerKey": "customer"
     }
   ]
