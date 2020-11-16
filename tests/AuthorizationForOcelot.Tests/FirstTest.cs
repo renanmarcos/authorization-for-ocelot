@@ -1,14 +1,13 @@
-using System;
 using Xunit;
 
 namespace AuthorizationForOcelot.Tests
 {
-    public class UnitTest1
+    public class FirstTest
     {
         [Fact]
-        public void Test1()
+        public void DumbTest()
         {
-
+            Assert.True(true);
         }
     }
 }
